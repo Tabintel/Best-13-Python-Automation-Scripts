@@ -5,3 +5,4 @@
 - Broken Links Detection
 - Handling Dynamic Content
 - Switching Tabs/Windows with Selenium webdriver
+- Handling Cookies
