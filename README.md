@@ -11,4 +11,5 @@
 - Handling Web Tables with Selenium Python
 - Handling iFrames
 - Modals Handling
-- "Shadow DOM Handling with Selenium Python
+- Shadow DOM Handling with Selenium Python
+- Handling Menus with Action Class in Selenium Python
