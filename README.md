@@ -7,4 +7,5 @@
 - Switching Tabs/Windows with Selenium webdriver
 - Handling Cookies
 - Handling pop-ups and alerts with Selenium Python
+- Date Pickers with Selenium Python
 - Handling Web Tables
