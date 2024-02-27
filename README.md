@@ -10,4 +10,5 @@
 - Date Pickers with Selenium Python
 - Handling Web Tables with Selenium Python
 - Handling iFrames
+- Modals Handling
 - 
