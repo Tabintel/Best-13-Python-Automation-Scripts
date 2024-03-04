@@ -1,14 +1,14 @@
-from selenium import webdriver
+from pyunitsetup import PyUnitTestSetup
 
-# Initialize the WebDriver with Edge browser
-driver = webdriver.Edge()
-
-# Open the website with Shadow DOM
-driver.get("https://www.lambdatest.com/selenium-playground/shadow-dom")
+# Initialize the PyUnitTestSetup fixture
+setup = PyUnitTestSetup()
 
 try:
+    # Open the website with Shadow DOM
+    setup.driver.get("https://www.lambdatest.com/selenium-playground/shadow-dom")
+
     # Execute JavaScript to find and print the content of the Shadow DOM element
-    shadow_dom_content = driver.execute_script("return document.querySelector('my-app').shadowRoot.querySelector('h3')")
+    shadow_dom_content = setup.driver.execute_script("return document.querySelector('my-app').shadowRoot.querySelector('h3')")
     print("Shadow DOM Content:", shadow_dom_content.text)
 
     print("Shadow DOM handling successful.")
@@ -16,5 +16,6 @@ try:
 except Exception as e:
     print("Error occurred while handling Shadow DOM:", e)
 
-# Close the browser
-driver.quit()
+finally:
+    # Close the browser
+    setup.tearDown()

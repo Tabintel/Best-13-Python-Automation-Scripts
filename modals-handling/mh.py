@@ -1,23 +1,23 @@
-from selenium import webdriver
+from pyunitsetup import PyUnitTestSetup
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-# Initialize the WebDriver with Edge browser
-driver = webdriver.Edge()
-
-# Open the website with the modal demo
-driver.get("https://www.lambdatest.com/selenium-playground/bootstrap-modal-demo/")
+# Initialize the PyUnitTestSetup fixture
+setup = PyUnitTestSetup()
 
 try:
+    # Open the website with the modal demo
+    setup.driver.get("https://www.lambdatest.com/selenium-playground/bootstrap-modal-demo/")
+
     # Click on the button to open the modal
-    open_modal_button = WebDriverWait(driver, 10).until(
+    open_modal_button = WebDriverWait(setup.driver, 10).until(
         EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'Launch demo modal')]"))
     )
     open_modal_button.click()
 
     # Wait for the modal to be visible
-    modal = WebDriverWait(driver, 10).until(
+    modal = WebDriverWait(setup.driver, 10).until(
         EC.visibility_of_element_located((By.ID, "myModal"))
     )
 
@@ -34,5 +34,6 @@ try:
 except Exception as e:
     print("Error occurred while handling modal:", e)
 
-# Close the browser
-driver.quit()
+finally:
+    # Close the browser
+    setup.tearDown()

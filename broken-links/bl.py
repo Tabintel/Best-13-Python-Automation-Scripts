@@ -1,41 +1,35 @@
-from selenium import webdriver
+from pyunitsetup import PyUnitTestSetup
 from selenium.webdriver.common.by import By
 import requests
-from selenium.webdriver.edge.service import Service
 
-# Specify the path to the Edge WebDriver executable
-edge_driver_path = r"C:\Users\USER\Downloads\apps\edgedriver_win64\msedgedriver.exe"
+# Initialize the PyUnitTestSetup fixture
+setup = PyUnitTestSetup()
 
-# Create a service object
-service = Service(edge_driver_path)
+try:
+    # Open the specified URL
+    setup.driver.get("https://ecommerce-playground.lambdatest.io/index.php?route=product/category&path=57")
 
-# Start the WebDriver service
-service.start()
+    # Extract all the links on the page
+    links = setup.driver.find_elements(By.TAG_NAME, 'a')
 
-# Initialize WebDriver with the Edge browser and the service
-driver = webdriver.Edge(service=service)
+    # Iterate through each link and check its status code
+    for link in links:
+        url = link.get_attribute('href')
+        if url:  # Check if the URL is not empty
+            try:
+                response = requests.head(url)
+                if response.status_code != 200:
+                    print(f"Broken Link Found: {url} - Status Code: {response.status_code}")
+            except requests.exceptions.MissingSchema:
+                print(f"Invalid URL: {url} - No scheme supplied.")
+            except requests.exceptions.RequestException as e:
+                print(f"Error accessing URL: {url} - {e}")
 
-# Maximize the browser window
-driver.maximize_window()
+    print("Broken links checked successfully.")
 
-# Open the specified URL
-driver.get("https://ecommerce-playground.lambdatest.io/index.php?route=product/category&path=57")
+except Exception as e:
+    print("Error occurred while checking broken links:", e)
 
-# Extract all the links on the page
-links = driver.find_elements(By.TAG_NAME, 'a')
-
-# Iterate through each link and check its status code
-for link in links:
-    url = link.get_attribute('href')
-    if url:  # Check if the URL is not empty
-        try:
-            response = requests.head(url)
-            if response.status_code != 200:
-                print(f"Broken Link Found: {url} - Status Code: {response.status_code}")
-        except requests.exceptions.MissingSchema:
-            print(f"Invalid URL: {url} - No scheme supplied.")
-        except requests.exceptions.RequestException as e:
-            print(f"Error accessing URL: {url} - {e}")
-
-# Close the browser
-driver.quit()
+finally:
+    # Close the browser
+    setup.tearDown()

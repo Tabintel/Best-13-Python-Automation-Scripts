@@ -1,20 +1,20 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
-import time
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from pyunitsetup import PyUnitTestSetup
 
-# Initialize the WebDriver with Edge browser
-driver = webdriver.Edge()
+# Initialize the PyUnitTestSetup fixture
+setup = PyUnitTestSetup()
 
 # Open the website with the table pagination demo
-driver.get("https://www.lambdatest.com/selenium-playground/table-pagination-demo")
+setup.driver.get("https://www.lambdatest.com/selenium-playground/table-pagination-demo")
 
 try:
     # Wait for the table to load
-    time.sleep(3)
+    WebDriverWait(setup.driver, 10).until(EC.presence_of_element_located((By.ID, "myTable")))
 
     # Find all table rows
-    rows = driver.find_elements(By.XPATH, "//table[@id='myTable']/tbody/tr")
+    rows = setup.driver.find_elements(By.XPATH, "//table[@id='myTable']/tbody/tr")
 
     # Print the content of each row
     for row in rows:
@@ -25,5 +25,6 @@ try:
 except Exception as e:
     print("Error occurred while handling web table:", e)
 
-# Close the browser
-driver.quit()
+finally:
+    # Close the browser
+    setup.tearDown()
