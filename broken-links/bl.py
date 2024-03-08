@@ -4,6 +4,7 @@ import requests
 
 # Initialize the PyUnitTestSetup fixture
 setup = PyUnitTestSetup()
+setup.setUp()  # Added setUp() method call here
 
 try:
     # Open the specified URL
