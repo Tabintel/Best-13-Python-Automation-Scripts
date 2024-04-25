@@ -1,9 +1,9 @@
-from pyunitsetup import PyUnitTestSetup
+#from pyunitsetup import PyUnitTestSetup
 from selenium.webdriver.common.by import By
 import requests
 
 # Initialize the PyUnitTestSetup fixture
-setup = PyUnitTestSetup()
+#setup = PyUnitTestSetup()
 setup.setUp()  # Added setUp() method call here
 
 try:
